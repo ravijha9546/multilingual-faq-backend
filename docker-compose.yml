@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/faq
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - mongo
+      - redis
+  
+  mongo:
+    image: mongo:latest
+    volumes:
+      - faq-data:/data/db
+  
+  redis:
+    image: redis:alpine
+    volumes:
+      - redis-data:/data
+
+volumes:
+  faq-data:
+  redis-data:
